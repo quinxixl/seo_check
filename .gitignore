@@ -1,3 +1,5 @@
 .idea
 frontend/node_modules
 frontend/.idea
+.DS_Store
+frontend/.DS_Store
