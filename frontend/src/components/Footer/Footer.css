@@ -1,0 +1,21 @@
+.footer {
+  padding: 2rem 0;
+  background: transparent;
+  color: #9ca3af;
+  font-size: 0.95rem;
+  text-align: center;
+  margin-top: auto;
+  border-top: 1px solid #f3f4f6;
+}
+
+@media (min-width: 768px) {
+  .footer {
+    padding: 2.5rem 0;
+    font-size: 1rem;
+  }
+}
+.footer p {
+  margin: 0;
+}
+
+/*# sourceMappingURL=Footer.css.map */

@@ -1,0 +1,40 @@
+.report-page {
+  padding: 3rem 0 4rem;
+}
+
+@media (min-width: 768px) {
+  .report-page {
+    padding: 4rem 0 5rem;
+  }
+}
+.report-page h2 {
+  font-size: 1.75rem;
+  margin-bottom: 1.5rem;
+  color: #1a1a1a;
+}
+
+@media (min-width: 768px) {
+  .report-page h2 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+}
+.report-content {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.06);
+  padding: 2.5rem;
+  border: 1px solid #f3f4f6;
+  color: #6b7280;
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+@media (min-width: 768px) {
+  .report-content {
+    padding: 3rem;
+    font-size: 1.1rem;
+  }
+}
+
+/*# sourceMappingURL=Report.css.map */
