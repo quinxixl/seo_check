@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { setPlan } from '../../features/payments/paymentSlice.js';
 import { getPlanLimits, getRemainingAnalyses } from '../../utils/planLimits.js';
 import "./Dashboard.scss";
@@ -48,9 +48,11 @@ const Dashboard = () => {
   const user = useSelector(state => state.auth.user);
   const allHistory = useSelector(state => state.siteAnalyzer.history);
   const currentPlan = useSelector(state => state.payments.plan);
+  const unlockedPlans = useSelector(state => state.payments.unlockedPlans || ['free']);
   const analysesToday = useSelector(state => state.payments.analysesToday);
   const planLimits = getPlanLimits(currentPlan);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [showPlanSelection, setShowPlanSelection] = useState(false);
 
   // Ограничиваем историю в зависимости от тарифа
@@ -61,9 +63,15 @@ const Dashboard = () => {
   const remainingAnalyses = user ? getRemainingAnalyses(currentPlan, analysesToday) : 'Неограниченно';
 
   const handlePlanChange = (planId) => {
-    dispatch(setPlan(planId));
-    setShowPlanSelection(false);
-    alert(`Тариф "${PLAN_DATA.find(p => p.id === planId)?.name}" активирован! (Это демо-версия)`);
+    // Любой уже купленный тариф (включая бесплатный) можно просто сделать текущим
+    if (unlockedPlans.includes(planId)) {
+      dispatch(setPlan(planId));
+      setShowPlanSelection(false);
+      return;
+    }
+
+    // Остальные тарифы требуют оплаты
+    navigate(`/payment?plan=${planId}`);
   };
 
   return (
@@ -126,7 +134,11 @@ const Dashboard = () => {
                     onClick={() => handlePlanChange(plan.id)}
                     disabled={currentPlan === plan.id}
                   >
-                    {currentPlan === plan.id ? 'Активен' : 'Выбрать'}
+                    {currentPlan === plan.id
+                      ? 'Активен'
+                      : unlockedPlans.includes(plan.id)
+                        ? 'Сделать текущим'
+                        : 'Оформить оплату'}
                   </button>
                 </div>
               ))}
@@ -142,7 +154,7 @@ const Dashboard = () => {
                 <div className="dashboard-history__limit">
                   Показано {history.length} из {allHistory.length} анализов
                   {currentPlan === 'free' && (
-                    <Link to="/pricing" className="dashboard-history__upgrade">
+                    <Link to="/payment?plan=pro" className="dashboard-history__upgrade">
                       Обновить тариф →
                     </Link>
                   )}

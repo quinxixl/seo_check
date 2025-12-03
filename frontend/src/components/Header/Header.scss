@@ -1,7 +1,11 @@
+@import "../../assets/styles/variables.scss";
+
 .header {
-  background: #fff;
-  border-bottom: 1px solid #ececec;
-  padding: 1.2rem 0;
+  background: $surface;
+  backdrop-filter: blur(22px) saturate(160%);
+  -webkit-backdrop-filter: blur(22px) saturate(160%);
+  border-bottom: 1px solid $border-subtle;
+  padding: 1.1rem 0;
   width: 100%;
   position: sticky;
   top: 0;
@@ -33,9 +37,10 @@
 
 .header__logo {
   font-weight: 700;
-  font-size: 1.35rem;
-  letter-spacing: 0.02em;
-  color: #222;
+  font-size: 1.3rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #e5e7eb;
   white-space: nowrap;
 }
 
@@ -59,10 +64,10 @@
 
 .header__nav a {
   font-weight: 500;
-  color: #737373;
-  padding-bottom: 4px;
+  color: $text-soft;
+  padding: 0.35rem 0;
   border-bottom: 2px solid transparent;
-  transition: border-color 0.18s, color 0.18s;
+  transition: border-color 0.18s, color 0.18s, opacity 0.18s;
   font-size: 0.95rem;
   white-space: nowrap;
 }
@@ -75,8 +80,8 @@
 
 .header__nav a:hover,
 .header__nav a:focus {
-  border-color: #0366d6;
-  color: #0366d6;
+  border-color: rgba(129, 140, 248, 0.8);
+  color: #e5e7eb;
 }
 
 .header__logo {
@@ -84,23 +89,26 @@
 }
 
 .header__login {
-  background: #0366d6;
+  background: linear-gradient(135deg, $brand, $brand-strong);
   color: #fff !important;
-  padding: 0.5rem 1.25rem !important;
-  border-radius: 6px;
+  padding: 0.5rem 1.4rem !important;
+  border-radius: $radius-pill;
   border: none;
-  transition: all 0.2s;
+  box-shadow: $shadow-sm;
+  transition: all 0.2s ease;
 }
 
 .header__login:hover {
-  background: #0254b3 !important;
+  background: linear-gradient(135deg, $brand-strong, $brand);
   border-bottom-color: transparent !important;
+  transform: translateY(-1px);
+  box-shadow: $shadow-soft;
 }
 
 .header__logout {
-  background: transparent;
-  border: 1px solid #e5e7eb;
-  color: #6b7280;
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid $border-subtle;
+  color: $text-soft;
   padding: 0.5rem 1.25rem;
   border-radius: 6px;
   font-size: 0.95rem;
@@ -117,7 +125,7 @@
 }
 
 .header__logout:hover {
-  border-color: #ef4444;
-  color: #ef4444;
-  background: #fef2f2;
+  border-color: rgba(239, 68, 68, 0.75);
+  color: #fecaca;
+  background: rgba(30, 64, 175, 0.2);
 }

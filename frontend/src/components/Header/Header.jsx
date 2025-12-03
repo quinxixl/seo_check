@@ -21,7 +21,6 @@ const Header = () => {
         <nav className="header__nav">
           <Link to="/">Главная</Link>
           {user && <Link to="/dashboard">Кабинет</Link>}
-          <Link to="/pricing">Тарифы</Link>
           {user ? (
             <button className="header__logout" onClick={handleLogout}>
               Выйти

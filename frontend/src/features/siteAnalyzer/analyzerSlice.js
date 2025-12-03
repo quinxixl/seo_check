@@ -3,8 +3,10 @@ import { analyzeUrl } from './api.js';
 
 export const analyzeUrlThunk = createAsyncThunk(
   'siteAnalyzer/analyzeUrl',
-  async (url) => {
-    return await analyzeUrl(url);
+  async (url, { getState }) => {
+    const state = getState();
+    const currentPlan = state.payments?.plan || 'free';
+    return await analyzeUrl(url, currentPlan);
   }
 );
 

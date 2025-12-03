@@ -1,20 +1,24 @@
+@import "../../assets/styles/variables.scss";
+
 .footer {
-  padding: 2rem 0;
+  padding: 2.25rem 0 2.5rem;
   background: transparent;
-  color: #9ca3af;
-  font-size: 0.95rem;
+  color: $text-soft;
+  font-size: 0.9rem;
   text-align: center;
   margin-top: auto;
-  border-top: 1px solid #f3f4f6;
+  border-top: 1px solid $border-subtle;
 }
 
 @media (min-width: 768px) {
   .footer {
-    padding: 2.5rem 0;
-    font-size: 1rem;
+    padding: 2.75rem 0 3rem;
+    font-size: 0.96rem;
   }
 }
 
 .footer p {
   margin: 0;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }

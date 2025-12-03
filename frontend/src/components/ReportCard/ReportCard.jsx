@@ -17,6 +17,39 @@ const getScoreLabel = (score) => {
   return "Требует внимания";
 };
 
+const buildPerformanceSolutions = (report) => {
+  const suggestions = [];
+  const metrics = report.performance?.metrics || {};
+  const loadTime = metrics.loadTime || 0;
+  const fcp = metrics.firstContentfulPaint || 0;
+
+  if (loadTime > 2000) {
+    suggestions.push("Сократите вес главной страницы: уменьшите размер изображений и подключите ленивую загрузку медиа.");
+  }
+  if (fcp > 1500) {
+    suggestions.push("Перенесите тяжёлые скрипты в конец страницы или подключите их с атрибутами defer/async.");
+  }
+  suggestions.push("Включите кэширование статики (CSS, JS, изображения) на стороне сервера.");
+
+  return suggestions;
+};
+
+const buildSeoSolutions = (report) => {
+  const suggestions = [];
+  const issues = report.seo?.issues || 0;
+
+  if (issues === 0) {
+    suggestions.push("Проверьте дополнительные SEO-возможности: микроразметку, перелинковку и работу с сниппетами.");
+    return suggestions;
+  }
+
+  suggestions.push("Проверьте, чтобы у всех ключевых страниц были уникальные title и meta description.");
+  suggestions.push("Убедитесь, что на странице есть один основной заголовок H1 и логичная структура H2–H3.");
+  suggestions.push("Добавьте человекопонятные URL и проверьте корректность файла sitemap.xml и robots.txt.");
+
+  return suggestions;
+};
+
 const exportReport = (report, format = 'json') => {
   const data = {
     url: report.url,
@@ -64,6 +97,9 @@ const ReportCard = ({ report }) => {
   const perfScore = report.performance?.score || 0;
   const seoScore = report.seo?.score || 0;
   const showDetailedMetrics = planLimits.detailedMetrics;
+  const isFree = currentPlan === 'free';
+  const isPro = currentPlan === 'pro';
+  const isBusiness = currentPlan === 'business';
 
   return (
     <div className="report-card" aria-live="polite">
@@ -111,15 +147,17 @@ const ReportCard = ({ report }) => {
           </div>
           <div className="report-progress__value">{perfScore} из 100</div>
         </div>
-        <p className="report-description">
-          {perfScore >= 80 
-            ? "Ваш сайт загружается быстро и обеспечивает отличный пользовательский опыт."
-            : perfScore >= 60
-            ? "Производительность хорошая, но есть возможности для улучшения скорости загрузки."
-            : "Рекомендуется оптимизировать скорость загрузки для улучшения пользовательского опыта."
-          }
-        </p>
-        {showDetailedMetrics && report.performance?.metrics && (
+        {!isFree && (
+          <p className="report-description">
+            {perfScore >= 80 
+              ? "Ваш сайт загружается быстро и обеспечивает отличный пользовательский опыт."
+              : perfScore >= 60
+              ? "Производительность хорошая, но есть возможности для улучшения скорости загрузки."
+              : "Рекомендуется оптимизировать скорость загрузки для улучшения пользовательского опыта."
+            }
+          </p>
+        )}
+        {showDetailedMetrics && report.performance?.metrics && (isPro || isBusiness) && (
           <div className="report-metrics">
             <div className="report-metric-item">
               <span className="report-metric-label">Время загрузки:</span>
@@ -131,12 +169,12 @@ const ReportCard = ({ report }) => {
             </div>
           </div>
         )}
-        {!showDetailedMetrics && (
-          <div className="report-upgrade-hint">
-            <Link to="/pricing" className="report-upgrade-link">
-              Обновите тариф для просмотра детальных метрик →
-            </Link>
-          </div>
+        {(isPro || isBusiness) && (
+          <ul className="report-solutions">
+            {buildPerformanceSolutions(report).map((item, index) => (
+              <li key={index}>{item}</li>
+            ))}
+          </ul>
         )}
       </div>
 
@@ -159,50 +197,61 @@ const ReportCard = ({ report }) => {
           </div>
           <div className="report-progress__value">{seoScore} из 100</div>
         </div>
-        <p className="report-description">
-          {seoScore >= 80
-            ? "Ваш сайт хорошо оптимизирован для поисковых систем."
-            : seoScore >= 60
-            ? "SEO на хорошем уровне, но есть что улучшить."
-            : "Рекомендуется улучшить SEO-оптимизацию для лучшей видимости в поисковых системах."
-          }
-        </p>
-        {report.seo?.issues && report.seo.issues > 0 && (
-          <div className="report-issues">
-            Найдено {report.seo.issues} {report.seo.issues === 1 ? 'проблема' : report.seo.issues < 5 ? 'проблемы' : 'проблем'}
-          </div>
+        {!isFree && (
+          <p className="report-description">
+            {seoScore >= 80
+              ? "Ваш сайт хорошо оптимизирован для поисковых систем."
+              : seoScore >= 60
+              ? "SEO на хорошем уровне, но есть что улучшить."
+              : "Рекомендуется улучшить SEO-оптимизацию для лучшей видимости в поисковых системах."
+            }
+          </p>
+        )}
+        {isBusiness && report.seo?.issues && report.seo.issues > 0 && (
+          <>
+            <div className="report-issues">
+              Найдено {report.seo.issues} {report.seo.issues === 1 ? 'проблема' : report.seo.issues < 5 ? 'проблемы' : 'проблем'}
+            </div>
+            <ul className="report-solutions">
+              {buildSeoSolutions(report).map((item, index) => (
+                <li key={index}>{item}</li>
+              ))}
+            </ul>
+          </>
         )}
       </div>
 
-      <div className="report-section">
-        <div className="report-section__header">
-          <div className="report-section__title">
-            <span className="report-icon">🔒</span>
-            <span>Безопасность</span>
+      {(isPro || isBusiness) && (
+        <div className="report-section">
+          <div className="report-section__header">
+            <div className="report-section__title">
+              <span className="report-icon">🔒</span>
+              <span>Безопасность</span>
+            </div>
+          </div>
+          <div className="report-security">
+            {report.security?.headers && report.security.headers.length > 0 ? (
+              <>
+                <p className="report-description">
+                  Ваш сайт использует следующие заголовки безопасности:
+                </p>
+                <ul className="report-list">
+                  {report.security.headers.map((h, i) => (
+                    <li key={i} className="report-tag">
+                      <span className="report-tag__icon">✓</span>
+                      {h}
+                    </li>
+                  ))}
+                </ul>
+              </>
+            ) : (
+              <p className="report-description report-description--warning">
+                ⚠️ Не обнаружены заголовки безопасности. Рекомендуется их добавить для защиты пользователей.
+              </p>
+            )}
           </div>
         </div>
-        <div className="report-security">
-          {report.security?.headers && report.security.headers.length > 0 ? (
-            <>
-              <p className="report-description">
-                Ваш сайт использует следующие заголовки безопасности:
-              </p>
-              <ul className="report-list">
-                {report.security.headers.map((h, i) => (
-                  <li key={i} className="report-tag">
-                    <span className="report-tag__icon">✓</span>
-                    {h}
-                  </li>
-                ))}
-              </ul>
-            </>
-          ) : (
-            <p className="report-description report-description--warning">
-              ⚠️ Не обнаружены заголовки безопасности. Рекомендуется их добавить для защиты пользователей.
-            </p>
-          )}
-        </div>
-      </div>
+      )}
     </div>
   );
 };

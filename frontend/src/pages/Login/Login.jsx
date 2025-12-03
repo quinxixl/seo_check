@@ -11,16 +11,53 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [formError, setFormError] = useState("");
+
+  const isValidEmail = (value) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
+  };
 
   const handleSubmit = e => {
     e.preventDefault();
-    if (username.trim()) {
-      dispatch(login({ 
-        name: username,
-        email: email || null
-      }));
-      navigate("/dashboard");
+    setFormError("");
+
+    if (!username.trim()) {
+      setFormError("Пожалуйста, введите имя пользователя");
+      return;
     }
+
+    if (!isLogin) {
+      if (!email.trim()) {
+        setFormError("Пожалуйста, введите email");
+        return;
+      }
+
+      if (!isValidEmail(email)) {
+        setFormError("Введите корректный email (например: name@mail.com)");
+        return;
+      }
+
+      if (!password.trim()) {
+        setFormError("Пожалуйста, введите пароль");
+        return;
+      }
+
+      if (password.length < 6) {
+        setFormError("Пароль должен содержать минимум 6 символов");
+        return;
+      }
+    } else {
+      if (!password.trim()) {
+        setFormError("Пожалуйста, введите пароль");
+        return;
+      }
+    }
+
+    dispatch(login({ 
+      name: username.trim(),
+      email: email.trim() || null
+    }));
+    navigate("/dashboard");
   };
 
   return (
@@ -51,7 +88,7 @@ const Login = () => {
           }
         </p>
 
-        <form className="login-form" onSubmit={handleSubmit}>
+        <form className="login-form" onSubmit={handleSubmit} noValidate>
           {!isLogin && (
             <div className="form-group">
               <label htmlFor="login-email">Email</label>
@@ -79,25 +116,28 @@ const Login = () => {
             />
           </div>
 
-          {!isLogin && (
-            <div className="form-group">
-              <label htmlFor="login-password">Пароль</label>
-              <input
-                id="login-password"
-                type="password"
-                placeholder="Минимум 6 символов"
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-                required={!isLogin}
-                minLength={6}
-              />
-            </div>
-          )}
+          <div className="form-group">
+            <label htmlFor="login-password">Пароль</label>
+            <input
+              id="login-password"
+              type="password"
+              placeholder={isLogin ? "Ваш пароль" : "Минимум 6 символов"}
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              required
+              minLength={isLogin ? 1 : 6}
+            />
+          </div>
 
           <button type="submit" className="login-submit">
             {isLogin ? "Войти" : "Создать аккаунт"}
           </button>
         </form>
+        {formError && (
+          <div className="login-error" role="alert">
+            {formError}
+          </div>
+        )}
       </div>
     </div>
   );

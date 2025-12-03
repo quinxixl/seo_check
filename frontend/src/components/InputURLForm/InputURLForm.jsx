@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import "./InputURLForm.scss";
-import { validateUrl } from "../../features/siteAnalyzer/utils.js";
+import { validateUrl, checkSiteAvailability } from "../../features/siteAnalyzer/utils.js";
 
 const InputURLForm = ({ onSubmit, loading, error }) => {
   const [url, setUrl] = useState("");
   const [localError, setLocalError] = useState("");
+  const [checking, setChecking] = useState(false);
 
   const normalizeUrl = (inputUrl) => {
     let normalized = inputUrl.trim();
@@ -14,7 +15,7 @@ const InputURLForm = ({ onSubmit, loading, error }) => {
     return normalized;
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
     setLocalError("");
     
@@ -24,10 +25,30 @@ const InputURLForm = ({ onSubmit, loading, error }) => {
     }
 
     const normalizedUrl = normalizeUrl(url);
-    
+
+    // Валидация формата URL
     if (!validateUrl(normalizedUrl)) {
       setLocalError("Введите корректный URL (например: example.com или https://example.com)");
       return;
+    }
+
+    // Дополнительная проверка: существует ли сайт в интернете
+    try {
+      setChecking(true);
+      const availability = await checkSiteAvailability(normalizedUrl);
+      setChecking(false);
+
+      if (!availability.available) {
+        setLocalError(
+          availability.error ||
+          "Сайт не отвечает или недоступен. Проверьте адрес и попробуйте ещё раз."
+        );
+        return;
+      }
+    } catch (err) {
+      // Если проверка не удалась по техническим причинам, не блокируем анализ,
+      // но даём мягкое предупреждение
+      setChecking(false);
     }
 
     onSubmit(normalizedUrl);
@@ -50,7 +71,7 @@ const InputURLForm = ({ onSubmit, loading, error }) => {
           className={localError || error ? "input-error" : ""}
         />
         <button type="submit" disabled={loading || !url.trim()}>
-          {loading ? "Проверка и анализ..." : "Проверить"}
+          {loading || checking ? "Проверяем сайт..." : "Проверить"}
         </button>
       </form>
       {(localError || error) && (

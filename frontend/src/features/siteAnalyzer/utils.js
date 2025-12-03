@@ -59,7 +59,7 @@ export async function checkSiteAvailability(url) {
 
     try {
       // Пытаемся сделать запрос к сайту
-      // Используем no-cors для обхода CORS ограничений
+      // Используем no-cors, чтобы не ломаться из‑за CORS, но поймать сетевые/DNS ошибки
       await fetch(url, {
         method: 'HEAD',
         mode: 'no-cors',
@@ -67,33 +67,17 @@ export async function checkSiteAvailability(url) {
         cache: 'no-cache',
       });
       clearTimeout(timeoutId);
-      
-      // Если запрос выполнился без ошибки - сайт доступен
+
+      // Если запрос выполнился без ошибки — считаем сайт доступным
       return { available: true, error: null };
     } catch (error) {
       clearTimeout(timeoutId);
-      
-      // AbortError означает таймаут
-      if (error.name === 'AbortError' || error.name === 'TimeoutError') {
-        // Проверяем популярные домены
-        const popularDomains = ['google.com', 'yandex.ru', 'github.com', 'wikipedia.org'];
-        const hostname = urlObj.hostname.toLowerCase();
-        const isPopularDomain = popularDomains.some(domain => hostname.includes(domain));
-        
-        if (isPopularDomain) {
-          // Если это популярный домен, считаем его доступным
-          return { available: true, error: null };
-        }
-        
-        return { 
-          available: false, 
-          error: 'Сайт не отвечает или недоступен. Проверьте правильность адреса или попробуйте позже.' 
-        };
-      }
-      
-      // Для других ошибок (например, CORS) считаем сайт потенциально доступным
-      // так как CORS не означает, что сайт недоступен
-      return { available: true, error: null };
+
+      // Любая ошибка сети/таймаут трактуем как недоступность сайта
+      return {
+        available: false,
+        error: 'Сайт не отвечает или недоступен. Проверьте правильность адреса или попробуйте позже.'
+      };
     }
   } catch (error) {
     // Если произошла непредвиденная ошибка, делаем базовую валидацию
