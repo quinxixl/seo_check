@@ -5,42 +5,52 @@ import { useNavigate } from "react-router-dom";
 import InputURLForm from "../../components/InputURLForm/InputURLForm.jsx";
 import ReportCard from "../../components/ReportCard/ReportCard.jsx";
 import { analyzeUrlThunk } from "../../features/siteAnalyzer/analyzerSlice.js";
-import { canPerformAnalysis, getRemainingAnalyses } from "../../utils/planLimits.js";
+import { canPerformAnalysis, getRemainingAnalyses, canAddSite } from "../../utils/planLimits.js";
 import { incrementAnalysesCount } from "../../features/payments/paymentSlice.js";
 
 const PLAN_DATA = [
   {
     id: 'free',
-    name: "Бесплатно",
-    price: "0₽/мес",
-    description: "Для быстрого старта и единичных проверок.",
+    name: "Start",
+    price: "0₽",
+    description: "Попробовать сервис и увидеть базовые проблемы сайта.",
     features: [
-      "До 3 анализов в день",
-      "Базовые отчёты по SEO и скорости",
-      "История до 3 анализов",
+      "1 анализ в сутки",
+      "Базовый SEO-аудит: meta, H1–H3, sitemap/robots",
+      "Базовый тест скорости и HTTPS",
+      "Оценка качества контента",
+      "SEO-резюме без детальных рекомендаций",
     ],
   },
   {
     id: 'pro',
-    name: "Про",
-    price: "499₽/мес",
-    description: "Для маркетологов и SEO-специалистов.",
+    name: "PRO",
+    price: "500₽/мес",
+    description: "Полная диагностика + рекомендации от ИИ, чтобы быстро расти в поиске.",
     features: [
-      "Неограниченное количество анализов",
-      "Детальные метрики производительности",
-      "История до 50 анализов и экспорт",
+      "До 10 сайтов, без лимита по частоте",
+      "Полный SEO-аудит + рекомендации ИИ (title/description, структура)",
+      "Продвинутый аудит скорости (Core Web Vitals, инструкции по исправлению)",
+      "Расширенная безопасность: XSS, CSP, библиотеки",
+      "UX-советы по конверсии",
+      "История и динамика улучшений",
+      "Экспорт отчётов в PDF",
     ],
     highlighted: true,
   },
   {
     id: 'business',
-    name: "Бизнес",
-    price: "1990₽/мес",
-    description: "Для агентств и продуктовых команд.",
+    name: "Business",
+    price: "2000₽/мес",
+    description: "Максимум мощности и автоматизации для агентств и команд.",
     features: [
-      "Неограниченная история",
-      "Сравнение анализов и API доступ",
-      "Приоритетная поддержка 24/7",
+      "До 100 сайтов, автоаудит раз в неделю",
+      "Тех. SEO-аудит: краулинг до 10k страниц, дубли, каноникал",
+      "Конкурентный анализ с лидерами ниши",
+      "Мониторинг скорости и uptime",
+      "Security Scan: SQLi, заголовки, cookies",
+      "Приоритизация задач + White Label PDF",
+      "Доступ для команды и приоритетная поддержка",
     ],
   },
 ];
@@ -49,6 +59,7 @@ const Home = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { loading, report, error } = useSelector(state => state.siteAnalyzer);
+  const history = useSelector(state => state.siteAnalyzer.history);
   const currentPlan = useSelector(state => state.payments.plan);
   const analysesToday = useSelector(state => state.payments.analysesToday);
   const user = useSelector(state => state.auth.user);
@@ -57,7 +68,12 @@ const Home = () => {
     // Проверяем лимиты тарифа только для зарегистрированных пользователей
     if (user) {
       if (!canPerformAnalysis(currentPlan, analysesToday)) {
-        alert(`Достигнут дневной лимит анализов для бесплатного тарифа (3 анализа). Обновите тариф для неограниченного количества анализов.`);
+        alert(`Достигнут лимит анализов для текущего тарифа. Обновите тариф, чтобы проводить больше проверок.`);
+        return;
+      }
+
+      if (!canAddSite(currentPlan, history, url)) {
+        alert(`Достигнут лимит сайтов для вашего тарифа. Обновите тариф, чтобы анализировать больше сайтов.`);
         return;
       }
       dispatch(incrementAnalysesCount());

@@ -100,6 +100,17 @@ const ReportCard = ({ report }) => {
   const isFree = currentPlan === 'free';
   const isPro = currentPlan === 'pro';
   const isBusiness = currentPlan === 'business';
+  const contentScore = report.content?.score;
+  const contentSummary = report.content?.summary;
+  const perfRecs = report.performance?.recommendations || [];
+  const seoRecs = report.seo?.recommendations || [];
+  const uxTips = report.ux?.tips || [];
+  const techSeo = report.techSeo;
+  const monitoring = report.monitoring;
+  const competitiveAnalysis = report.competitiveAnalysis;
+  const whiteLabel = report.whiteLabel;
+  const teamAccess = report.teamAccess;
+  const autoAudit = report.autoAudit;
 
   return (
     <div className="report-card" aria-live="polite">
@@ -169,9 +180,9 @@ const ReportCard = ({ report }) => {
             </div>
           </div>
         )}
-        {(isPro || isBusiness) && (
+        {(isPro || isBusiness) && perfRecs.length > 0 && (
           <ul className="report-solutions">
-            {buildPerformanceSolutions(report).map((item, index) => (
+            {perfRecs.map((item, index) => (
               <li key={index}>{item}</li>
             ))}
           </ul>
@@ -212,11 +223,13 @@ const ReportCard = ({ report }) => {
             <div className="report-issues">
               Найдено {report.seo.issues} {report.seo.issues === 1 ? 'проблема' : report.seo.issues < 5 ? 'проблемы' : 'проблем'}
             </div>
-            <ul className="report-solutions">
-              {buildSeoSolutions(report).map((item, index) => (
-                <li key={index}>{item}</li>
-              ))}
-            </ul>
+            {(seoRecs.length > 0 || buildSeoSolutions(report).length > 0) && (
+              <ul className="report-solutions">
+                {(seoRecs.length > 0 ? seoRecs : buildSeoSolutions(report)).map((item, index) => (
+                  <li key={index}>{item}</li>
+                ))}
+              </ul>
+            )}
           </>
         )}
       </div>
@@ -250,6 +263,127 @@ const ReportCard = ({ report }) => {
               </p>
             )}
           </div>
+        </div>
+      )}
+
+      {/* Контент и резюме (есть у всех тарифов, но без деталей на Start) */}
+      {(contentScore || contentSummary) && (
+        <div className="report-section">
+          <div className="report-section__header">
+            <div className="report-section__title">
+              <span className="report-icon">📝</span>
+              <span>Качество контента</span>
+            </div>
+          </div>
+          {contentScore && (
+            <div className="report-progress">
+              <div className="report-progress__bar">
+                <div
+                  className={`report-progress__fill report-progress__fill--${getScoreColor(contentScore)}`}
+                  style={{ width: `${contentScore}%` }}
+                ></div>
+              </div>
+              <div className="report-progress__value">{contentScore} из 100</div>
+            </div>
+          )}
+          {contentSummary && (
+            <p className="report-description">{contentSummary}</p>
+          )}
+          {isPro || isBusiness ? (
+            <p className="report-description">
+              Добавьте LSI-ключи, улучшите структуру под интент запроса и проверьте читабельность на мобильных.
+            </p>
+          ) : null}
+        </div>
+      )}
+
+      {(isPro || isBusiness) && uxTips.length > 0 && (
+        <div className="report-section">
+          <div className="report-section__header">
+            <div className="report-section__title">
+              <span className="report-icon">🎯</span>
+              <span>UX и конверсии</span>
+            </div>
+          </div>
+          <ul className="report-solutions">
+            {uxTips.map((item, i) => (
+              <li key={i}>{item}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {isBusiness && techSeo && (
+        <div className="report-section">
+          <div className="report-section__header">
+            <div className="report-section__title">
+              <span className="report-icon">🛠</span>
+              <span>Технический SEO</span>
+            </div>
+          </div>
+          <p className="report-description">
+            Краулинг до {techSeo.crawlLimit} страниц. Проверки: {techSeo.checks.join(', ')}.
+          </p>
+        </div>
+      )}
+
+      {isBusiness && monitoring && (
+        <div className="report-section">
+          <div className="report-section__header">
+            <div className="report-section__title">
+              <span className="report-icon">📈</span>
+              <span>Мониторинг</span>
+            </div>
+          </div>
+          <ul className="report-solutions">
+            {monitoring.uptime && <li>Uptime-мониторинг</li>}
+            {monitoring.speed && <li>Мониторинг скорости</li>}
+            {monitoring.autoAuditWeekly && <li>Еженедельный автоаудит всех сайтов</li>}
+          </ul>
+        </div>
+      )}
+
+      {isBusiness && competitiveAnalysis && (
+        <div className="report-section">
+          <div className="report-section__header">
+            <div className="report-section__title">
+              <span className="report-icon">⚔️</span>
+              <span>Конкурентный анализ</span>
+            </div>
+          </div>
+          <p className="report-description">
+            Сравнение с лидерами ниши: ключевые метрики скорости и SEO, точки роста, приоритетные задачи.
+          </p>
+        </div>
+      )}
+
+      {(isBusiness || isPro) && report.pdfExport && (
+        <div className="report-section">
+          <div className="report-section__header">
+            <div className="report-section__title">
+              <span className="report-icon">📄</span>
+              <span>Отчёты</span>
+            </div>
+          </div>
+          <p className="report-description">
+            Доступен экспорт в PDF для презентации результатов. На Business — White Label для брендирования под клиента.
+          </p>
+        </div>
+      )}
+
+      {isBusiness && (whiteLabel || teamAccess || autoAudit) && (
+        <div className="report-section">
+          <div className="report-section__header">
+            <div className="report-section__title">
+              <span className="report-icon">🤝</span>
+              <span>Команда и брендирование</span>
+            </div>
+          </div>
+          <ul className="report-solutions">
+            {teamAccess && <li>Доступ для команды</li>}
+            {whiteLabel && <li>White Label отчёты</li>}
+            {autoAudit && <li>Автоаудит по расписанию</li>}
+          </ul>
         </div>
       )}
     </div>

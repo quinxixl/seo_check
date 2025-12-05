@@ -7,21 +7,21 @@ import { setPlan, unlockPlan } from "../../features/payments/paymentSlice.js";
 const PLAN_DATA = {
   free: {
     id: "free",
-    name: "Бесплатный",
-    price: "0₽ / мес",
-    description: "Для тестирования сервиса и единичных проверок.",
+    name: "Start",
+    price: "0₽",
+    description: "Попробовать сервис и увидеть базовые проблемы сайта.",
   },
   pro: {
     id: "pro",
-    name: "Про",
-    price: "499₽ / мес",
-    description: "Для маркетологов и SEO-специалистов.",
+    name: "PRO",
+    price: "500₽ / мес",
+    description: "Полноценная диагностика + рекомендации от ИИ.",
   },
   business: {
     id: "business",
-    name: "Бизнес",
-    price: "1990₽ / мес",
-    description: "Для агентств и продуктовых команд.",
+    name: "Business",
+    price: "2000₽ / мес",
+    description: "Максимум мощности и автоматизации для агентств.",
   },
 };
 

@@ -51,10 +51,10 @@ export async function analyzeUrl(url, plan = 'free') {
         // Это гарантирует стабильные результаты для одного и того же URL
         
         // Генерируем стабильные оценки на основе хэша URL и тарифа
-        const perfMin = plan === 'free' ? 40 : plan === 'pro' ? 50 : 60;
-        const perfMax = plan === 'free' ? 90 : plan === 'pro' ? 100 : 100;
-        const seoMin = plan === 'free' ? 30 : plan === 'pro' ? 40 : 50;
-        const seoMax = plan === 'free' ? 85 : plan === 'pro' ? 95 : 100;
+        const perfMin = plan === 'free' ? 40 : plan === 'pro' ? 55 : 60;
+        const perfMax = plan === 'free' ? 85 : plan === 'pro' ? 100 : 100;
+        const seoMin = plan === 'free' ? 35 : plan === 'pro' ? 50 : 55;
+        const seoMax = plan === 'free' ? 85 : plan === 'pro' ? 98 : 100;
 
         const performanceScore = getDeterministicValue(
           normalizedUrl + '_' + plan + '_perf',
@@ -97,10 +97,73 @@ export async function analyzeUrl(url, plan = 'free') {
           .filter(header => {
             const threshold = plan === 'free' ? 60 : plan === 'pro' ? 45 : 35;
             const value = getDeterministicValue(header.seed, 0, 100);
-            // На платных тарифах мы чаще «видим» корректные заголовки
             return value > threshold;
           })
           .map(header => header.name);
+
+        // Контентное качество (упрощённо)
+        const contentQualityScore = getDeterministicValue(
+          normalizedUrl + '_' + plan + '_content',
+          plan === 'free' ? 50 : plan === 'pro' ? 60 : 70,
+          plan === 'free' ? 80 : plan === 'pro' ? 90 : 95
+        );
+
+        // Генерация рекомендаций под тариф
+        const performanceRecommendations =
+          plan === 'free'
+            ? []
+            : [
+                "Оптимизируйте тяжёлые изображения (webp/avif, lazy-load).",
+                "Вынесите неcritical JS в defer/async, уменьшите bundle.",
+                "Включите кэширование статики и используйте HTTP/2/3."
+              ];
+
+        const seoRecommendations =
+          plan === 'business'
+            ? [
+                "Проверьте дубли и каноникал для ключевых страниц.",
+                "Улучшите внутреннюю перелинковку по продуктовым/категорийным страницам.",
+                "Добавьте schema.org для товаров/организации/FAQ."
+              ]
+            : plan === 'pro'
+            ? [
+                "Сгенерируйте оптимизированные Title/Description для основных страниц.",
+                "Убедитесь в единственном H1 и логике H2–H3.",
+                "Добавьте понятные ЧПУ и корректный sitemap/robots."
+              ]
+            : [];
+
+        const uxTips =
+          plan === 'pro' || plan === 'business'
+            ? [
+                "Упростите первый экран: чёткий оффер + CTA.",
+                "Уберите лишние поля из форм, сократите до 2–3 шагов.",
+                "Добавьте социальное доказательство (отзывы, логотипы клиентов)."
+              ]
+            : [];
+
+        // Business — дополнительные блоки
+        const techSeo =
+          plan === 'business'
+            ? {
+                crawlLimit: 10000,
+                checks: ["Дубли", "Каноникал", "Редиректы", "Глубина вложенности"],
+              }
+            : null;
+
+        const monitoring =
+          plan === 'business'
+            ? {
+                uptime: true,
+                speed: true,
+                autoAuditWeekly: true,
+              }
+            : null;
+
+        const competitiveAnalysis = plan === 'business';
+        const whiteLabel = plan === 'business';
+        const teamAccess = plan === 'business';
+        const autoAudit = plan === 'business';
 
         const result = {
           url: normalizedUrl,
@@ -110,15 +173,35 @@ export async function analyzeUrl(url, plan = 'free') {
             metrics: {
               loadTime: loadTime,
               firstContentfulPaint: fcp,
-            }
+            },
+            recommendations: performanceRecommendations,
           },
           seo: { 
             score: seoScore,
-            issues: seoIssues
+            issues: seoIssues,
+            recommendations: seoRecommendations,
           },
           security: { 
-            headers: securityHeaders.length > 0 ? securityHeaders : ['Нет заголовков безопасности']
-          }
+            headers: securityHeaders.length > 0 ? securityHeaders : ['Нет заголовков безопасности'],
+            advanced: plan !== 'free',
+          },
+          content: {
+            score: contentQualityScore,
+            summary:
+              plan === 'free'
+                ? "Базовая оценка контента: проверьте читаемость, уникальность и релевантность ключевых запросов."
+                : "Контент оценён, улучшите плотность ключей, структуру и семантическое покрытие.",
+          },
+          ux: {
+            tips: uxTips,
+          },
+          techSeo,
+          monitoring,
+          competitiveAnalysis,
+          whiteLabel,
+          teamAccess,
+          autoAudit,
+          pdfExport: plan !== 'free',
         };
 
         // Сохраняем в кэш (без timestamp для стабильности)
