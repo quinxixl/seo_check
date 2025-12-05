@@ -1,17 +1,21 @@
+@import "../../assets/styles/variables.scss";
+
 .dashboard-page {
-  padding: 3rem 0 4rem;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 4rem;
 }
 
 @media (min-width: 768px) {
   .dashboard-page {
-    padding: 4rem 0 5rem;
+    padding: 4rem 1.5rem 5rem;
   }
 }
 
 .dashboard-page h2 {
   font-size: 1.75rem;
   margin-bottom: 1.5rem;
-  color: #1a1a1a;
+  color: #f8fafc;
 }
 
 @media (min-width: 768px) {
@@ -22,14 +26,14 @@
 }
 
 .dashboard-content {
-  background: #fff;
+  background: $surface;
   border-radius: 16px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.06);
+  box-shadow: $shadow-soft;
   padding: 2.5rem;
-  border: 1px solid #f3f4f6;
+  border: 1px solid $border-subtle;
   font-size: 1.05rem;
   line-height: 1.7;
-  color: #4b5563;
+  color: $text;
 }
 
 @media (min-width: 768px) {
@@ -47,13 +51,13 @@
   flex-wrap: wrap;
   gap: 1rem;
   padding-bottom: 1.5rem;
-  border-bottom: 1px solid #f3f4f6;
+  border-bottom: 1px solid $border-subtle;
 }
 
 .dashboard-welcome {
   font-size: 1.15rem;
   font-weight: 600;
-  color: #1a1a1a;
+  color: $text-soft;
   margin-bottom: 0.75rem;
 }
 
@@ -65,20 +69,20 @@
 }
 
 .dashboard-plan__label {
-  color: #6b7280;
+  color: $text-soft;
 }
 
 .dashboard-plan__name {
   font-weight: 600;
-  color: #0366d6;
+  color: $brand;
 }
 
 .dashboard-plan-limit {
   margin-top: 0.75rem;
   padding: 0.875rem 1rem;
-  background: #fef3c7;
+  background: rgba(250, 204, 21, 0.08);
   border-radius: 8px;
-  border-left: 3px solid #f59e0b;
+  border-left: 3px solid rgba(250, 204, 21, 0.85);
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -87,17 +91,17 @@
 }
 
 .dashboard-plan-limit__text {
-  color: #92400e;
+  color: #fde68a;
 }
 
 .dashboard-plan-limit__remaining {
-  color: #78350f;
+  color: #fef9c3;
   font-weight: 600;
 }
 
 .dashboard-plan-btn {
   padding: 0.75rem 1.5rem;
-  background: #0366d6;
+  background: $brand;
   color: #fff;
   border: none;
   border-radius: 8px;
@@ -109,7 +113,7 @@
 }
 
 .dashboard-plan-btn:hover {
-  background: #0254b3;
+  background: $brand-strong;
   transform: translateY(-1px);
   box-shadow: 0 4px 6px rgba(3, 102, 214, 0.3);
 }
@@ -117,15 +121,15 @@
 .dashboard-plans {
   margin-bottom: 2rem;
   padding: 1.5rem;
-  background: #f9fafb;
+  background: $surface-soft;
   border-radius: 12px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid $border-subtle;
 }
 
 .dashboard-plans h3 {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #1a1a1a;
+  color: #f8fafc;
   margin-bottom: 1.5rem;
 }
 
@@ -142,23 +146,24 @@
 }
 
 .dashboard-plan-card {
-  background: #fff;
-  border: 2px solid #e5e7eb;
+  background: $surface;
+  border: 1px solid $border-subtle;
   border-radius: 12px;
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
   transition: all 0.2s;
+  color: $text;
 }
 
 .dashboard-plan-card:hover {
-  border-color: #0366d6;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-color: rgba(129, 140, 248, 0.7);
+  box-shadow: $shadow-subtle;
 }
 
 .dashboard-plan-card--active {
-  border-color: #0366d6;
-  background: #f0f7ff;
+  border-color: rgba(129, 140, 248, 0.95);
+  background: rgba(79, 70, 229, 0.1);
 }
 
 .dashboard-plan-card__header {
@@ -168,14 +173,14 @@
 .dashboard-plan-card__name {
   font-size: 1.25rem;
   font-weight: 700;
-  color: #1a1a1a;
+  color: $text;
   margin-bottom: 0.5rem;
 }
 
 .dashboard-plan-card__price {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #0366d6;
+  color: $brand;
 }
 
 .dashboard-plan-card__features {
@@ -191,7 +196,7 @@
   gap: 0.5rem;
   margin-bottom: 0.75rem;
   font-size: 0.9rem;
-  color: #4b5563;
+  color: $text-soft;
   line-height: 1.5;
 }
 
@@ -203,9 +208,9 @@
 
 .dashboard-plan-card__btn {
   padding: 0.75rem 1rem;
-  border: 2px solid #0366d6;
-  background: #fff;
-  color: #0366d6;
+  border: 2px solid $brand;
+  background: transparent;
+  color: $brand;
   border-radius: 8px;
   font-weight: 600;
   font-size: 0.95rem;
@@ -215,14 +220,14 @@
 }
 
 .dashboard-plan-card__btn:hover:not(:disabled) {
-  background: #0366d6;
+  background: $brand;
   color: #fff;
   transform: translateY(-1px);
   box-shadow: 0 4px 6px rgba(3, 102, 214, 0.3);
 }
 
 .dashboard-plan-card__btn--active {
-  background: #0366d6;
+  background: $brand;
   color: #fff;
   cursor: default;
 }
@@ -248,13 +253,13 @@
 .dashboard-history h3 {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #1a1a1a;
+  color: $text;
   margin: 0;
 }
 
 .dashboard-history__limit {
   font-size: 0.9rem;
-  color: #6b7280;
+  color: $text-soft;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -262,7 +267,7 @@
 }
 
 .dashboard-history__upgrade {
-  color: #0366d6;
+  color: $brand;
   font-weight: 500;
   text-decoration: none;
   font-size: 0.875rem;
@@ -279,16 +284,17 @@
 }
 
 .history-item {
-  background: #f9fafb;
-  border: 1px solid #e5e7eb;
+  background: $surface;
+  border: 1px solid $border-subtle;
   border-radius: 12px;
   padding: 1.5rem;
   transition: all 0.2s;
+  color: $text;
 }
 
 .history-item:hover {
-  border-color: #0366d6;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border-color: rgba(129, 140, 248, 0.7);
+  box-shadow: $shadow-subtle;
 }
 
 .history-item__header {
@@ -302,7 +308,7 @@
 
 .history-item__url {
   font-weight: 600;
-  color: #0366d6;
+  color: $brand;
   text-decoration: none;
   font-size: 1rem;
   word-break: break-word;
@@ -314,7 +320,7 @@
 
 .history-item__date {
   font-size: 0.875rem;
-  color: #6b7280;
+  color: $text-soft;
 }
 
 .history-item__scores {
@@ -331,19 +337,19 @@
 
 .score-label {
   font-size: 0.875rem;
-  color: #6b7280;
+  color: $text-soft;
 }
 
 .score-value {
   font-size: 1.25rem;
   font-weight: 700;
-  color: #1a1a1a;
+  color: $text;
 }
 
 .dashboard-empty {
   text-align: center;
   padding: 3rem 1rem;
-  color: #6b7280;
+  color: $text-soft;
 }
 
 .dashboard-empty p {
@@ -353,7 +359,7 @@
 
 .dashboard-link {
   display: inline-block;
-  background: #0366d6;
+  background: $brand;
   color: #fff;
   padding: 0.875rem 2rem;
   border-radius: 8px;
@@ -363,7 +369,7 @@
 }
 
 .dashboard-link:hover {
-  background: #0254b3;
+  background: $brand-strong;
   transform: translateY(-1px);
   box-shadow: 0 4px 6px rgba(3, 102, 214, 0.3);
 }

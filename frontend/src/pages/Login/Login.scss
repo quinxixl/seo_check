@@ -1,3 +1,5 @@
+@import "../../assets/styles/variables.scss";
+
 .login-page {
   padding: 3rem 0 4rem;
   display: flex;
@@ -16,14 +18,15 @@
   max-width: 420px;
   width: 100%;
   margin: 0 auto;
-  background: rgba(15, 23, 42, 0.9);
+  background: $surface;
   border-radius: 16px;
-  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.6);
+  box-shadow: $shadow-soft;
   padding: 2.5rem 2rem;
-  border: 1px solid rgba(148, 163, 184, 0.4);
-  backdrop-filter: blur(22px) saturate(160%);
-  -webkit-backdrop-filter: blur(22px) saturate(160%);
+  border: 1px solid $border-subtle;
+  backdrop-filter: blur(16px) saturate(150%);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
   animation: login-fade-in 0.6s ease-out forwards;
+  color: $text;
 }
 
 @media (min-width: 768px) {
@@ -36,7 +39,7 @@
   text-align: center;
   font-size: 1.75rem;
   margin-bottom: 2rem;
-  color: #e5e7eb;
+  color: $text;
 }
 
 @media (min-width: 768px) {
@@ -53,7 +56,7 @@
 }
 
 .login-form label {
-  color: #9ca3af;
+  color: $text-soft;
   font-size: 0.95rem;
   font-weight: 500;
   margin-bottom: -0.5rem;
@@ -61,13 +64,13 @@
 
 .login-form input {
   padding: 0.875rem 1.25rem;
-  border: 1px solid rgba(148, 163, 184, 0.7);
+  border: 1px solid $border-subtle;
   border-radius: 8px;
   font-size: 1rem;
   transition: all 0.2s;
   width: 100%;
-  background: rgba(15, 23, 42, 0.96);
-  color: #e5e7eb;
+  background: #fff;
+  color: $text;
 }
 
 @media (min-width: 768px) {
@@ -78,9 +81,9 @@
 }
 
 .login-form input:focus {
-  border-color: rgba(129, 140, 248, 0.95);
-  box-shadow: 0 0 0 1px rgba(129, 140, 248, 0.6),
-    0 0 0 14px rgba(79, 70, 229, 0.18);
+  border-color: rgba(79, 70, 229, 0.45);
+  box-shadow: 0 0 0 1px rgba(79, 70, 229, 0.45),
+    0 10px 26px rgba(79, 70, 229, 0.18);
   outline: none;
 }
 
@@ -126,10 +129,10 @@
   display: flex;
   gap: 0.5rem;
   margin-bottom: 2rem;
-  background: rgba(15, 23, 42, 0.9);
+  background: $surface-soft;
   padding: 0.25rem;
   border-radius: 10px;
-  border: 1px solid rgba(148, 163, 184, 0.5);
+  border: 1px solid $border-subtle;
 }
 
 .login-tab {
@@ -137,7 +140,7 @@
   padding: 0.75rem 1rem;
   border: none;
   background: transparent;
-  color: #9ca3af;
+  color: $text-muted;
   font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
@@ -147,14 +150,14 @@
 }
 
 .login-tab--active {
-  background: rgba(15, 23, 42, 0.96);
-  color: #e5e7eb;
-  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.7);
+  background: #fff;
+  color: $text;
+  box-shadow: $shadow-sm;
 }
 
 .login-subtitle {
   text-align: center;
-  color: #9ca3af;
+  color: $text-soft;
   font-size: 0.95rem;
   margin-bottom: 2rem;
   line-height: 1.5;
@@ -176,7 +179,7 @@
   border-radius: 10px;
   background: rgba(248, 113, 113, 0.12);
   border: 1px solid rgba(248, 113, 113, 0.6);
-  color: #fecaca;
+  color: #b91c1c;
   font-size: 0.9rem;
   text-align: center;
   animation: shake-in 0.4s ease-out;

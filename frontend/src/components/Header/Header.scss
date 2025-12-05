@@ -2,15 +2,15 @@
 
 .header {
   background: $surface;
-  backdrop-filter: blur(22px) saturate(160%);
-  -webkit-backdrop-filter: blur(22px) saturate(160%);
+  backdrop-filter: blur(18px) saturate(150%);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
   border-bottom: 1px solid $border-subtle;
   padding: 1.1rem 0;
   width: 100%;
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
 }
 
 .header__inner {
@@ -40,7 +40,7 @@
   font-size: 1.3rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #e5e7eb;
+  color: $text;
   white-space: nowrap;
 }
 
@@ -64,7 +64,7 @@
 
 .header__nav a {
   font-weight: 500;
-  color: $text-soft;
+  color: $text-muted;
   padding: 0.35rem 0;
   border-bottom: 2px solid transparent;
   transition: border-color 0.18s, color 0.18s, opacity 0.18s;
@@ -81,7 +81,7 @@
 .header__nav a:hover,
 .header__nav a:focus {
   border-color: rgba(129, 140, 248, 0.8);
-  color: #e5e7eb;
+  color: $text;
 }
 
 .header__logo {
@@ -106,9 +106,9 @@
 }
 
 .header__logout {
-  background: rgba(15, 23, 42, 0.9);
+  background: rgba(255, 255, 255, 0.85);
   border: 1px solid $border-subtle;
-  color: $text-soft;
+  color: $text-muted;
   padding: 0.5rem 1.25rem;
   border-radius: 6px;
   font-size: 0.95rem;
@@ -125,7 +125,7 @@
 }
 
 .header__logout:hover {
-  border-color: rgba(239, 68, 68, 0.75);
-  color: #fecaca;
-  background: rgba(30, 64, 175, 0.2);
+  border-color: rgba(239, 68, 68, 0.35);
+  color: #b91c1c;
+  background: rgba(239, 68, 68, 0.06);
 }

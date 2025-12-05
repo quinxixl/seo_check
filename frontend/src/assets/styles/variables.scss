@@ -1,21 +1,21 @@
-// Основная палитра
+// Основная палитра (светлая тема + жидкое стекло)
 $brand: #4f46e5; // основной акцент (индиго)
 $brand-soft: #eef2ff;
 $brand-strong: #4338ca;
 
 // Нейтральные цвета
-$background: #060714;
-$surface: rgba(15, 23, 42, 0.82);
-$surface-soft: rgba(15, 23, 42, 0.72);
-$border-subtle: rgba(148, 163, 184, 0.4);
+$background: #f5f7fb;
+$surface: rgba(255, 255, 255, 0.78); // стекло
+$surface-soft: rgba(255, 255, 255, 0.68);
+$border-subtle: rgba(99, 115, 129, 0.22);
 
 // Текст
-$text: #e5e7eb;
-$text-soft: #9ca3af;
-$text-muted: #6b7280;
+$text: #0f172a;
+$text-soft: #475569;
+$text-muted: #64748b;
 
 // Состояния
-$success: #22c55e;
+$success: #16a34a;
 $warning: #f59e0b;
 $danger: #ef4444;
 
@@ -24,8 +24,8 @@ $radius-lg: 18px;
 $radius-md: 12px;
 $radius-pill: 999px;
 
-// Тени
-$shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.4);
-$shadow-subtle: 0 10px 30px rgba(15, 23, 42, 0.35);
-$shadow-sm: 0 8px 20px rgba(15, 23, 42, 0.3);
+// Тени (мягкие для стекла)
+$shadow-soft: 0 24px 60px rgba(15, 23, 42, 0.12);
+$shadow-subtle: 0 18px 40px rgba(15, 23, 42, 0.1);
+$shadow-sm: 0 12px 26px rgba(15, 23, 42, 0.08);
 

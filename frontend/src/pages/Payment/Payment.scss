@@ -24,11 +24,12 @@
 }
 
 .payment-summary {
-  background: rgba(15, 23, 42, 0.9);
+  background: $surface;
   border-radius: $radius-lg;
   padding: 2rem 1.8rem;
-  border: 1px solid rgba(148, 163, 184, 0.5);
+  border: 1px solid $border-subtle;
   box-shadow: $shadow-subtle;
+  color: $text;
 }
 
 .payment-summary h2 {
@@ -39,9 +40,10 @@
 .payment-plan-card {
   border-radius: 16px;
   padding: 1.4rem 1.3rem 1.2rem;
-  background: rgba(15, 23, 42, 0.98);
-  border: 1px solid rgba(148, 163, 184, 0.7);
+  background: $surface;
+  border: 1px solid $border-subtle;
   margin-bottom: 1.4rem;
+  color: $text;
 }
 
 .payment-plan-card__name {
@@ -92,11 +94,12 @@
 }
 
 .payment-form-wrapper {
-  background: rgba(15, 23, 42, 0.9);
+  background: $surface;
   border-radius: $radius-lg;
   padding: 2rem 1.8rem;
-  border: 1px solid rgba(148, 163, 184, 0.5);
+  border: 1px solid $border-subtle;
   box-shadow: $shadow-soft;
+  color: $text;
 }
 
 @media (min-width: 768px) {
@@ -131,8 +134,8 @@
 .payment-form input {
   padding: 0.9rem 1.1rem;
   border-radius: 10px;
-  border: 1px solid rgba(148, 163, 184, 0.7);
-  background: rgba(15, 23, 42, 0.96);
+  border: 1px solid $border-subtle;
+  background: #fff;
   color: $text;
   font-size: 0.98rem;
   transition: all 0.18s ease;
@@ -140,9 +143,9 @@
 
 .payment-form input:focus {
   outline: none;
-  border-color: rgba(129, 140, 248, 0.96);
-  box-shadow: 0 0 0 1px rgba(129, 140, 248, 0.6),
-    0 0 0 14px rgba(79, 70, 229, 0.16);
+  border-color: rgba(79, 70, 229, 0.45);
+  box-shadow: 0 0 0 1px rgba(79, 70, 229, 0.45),
+    0 10px 26px rgba(79, 70, 229, 0.18);
 }
 
 .payment-form__row {
@@ -163,7 +166,7 @@
   border-radius: 10px;
   background: rgba(248, 113, 113, 0.12);
   border: 1px solid rgba(248, 113, 113, 0.65);
-  color: #fecaca;
+  color: #b91c1c;
   font-size: 0.88rem;
 }
 

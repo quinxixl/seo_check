@@ -1,13 +1,17 @@
+@import "../../assets/styles/variables.scss";
+
 .report-card {
-  background: rgba(15, 23, 42, 0.92);
+  background: rgba(255, 255, 255, 0.82);
   border-radius: 20px;
-  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.6);
+  box-shadow: $shadow-subtle;
   padding: clamp(1.8rem, 3vw, 2.8rem);
   margin: 2.5rem auto 0;
   width: 100%;
   max-width: 780px;
-  border: 1px solid rgba(148, 163, 184, 0.35);
-  color: #f8fafc;
+  border: 1px solid $border-subtle;
+  color: $text;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 
 @media (min-width: 768px) {
@@ -30,12 +34,12 @@
 .report-card h2 {
   font-size: clamp(1.4rem, 2.2vw, 1.8rem);
   margin-bottom: 0.75rem;
-  color: #f8fafc;
+  color: $text;
   font-weight: 700;
 }
 
 .report-card__url {
-  color: #93c5fd;
+  color: $brand;
   font-size: 0.95rem;
   word-break: break-word;
 }
@@ -43,7 +47,7 @@
 .report-section {
   margin-bottom: 2rem;
   padding-bottom: 2rem;
-  border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+  border-bottom: 1px solid $border-subtle;
 }
 
 .report-section:last-child {
@@ -67,7 +71,7 @@
   gap: 0.75rem;
   font-size: 1.1rem;
   font-weight: 600;
-  color: #f8fafc;
+  color: $text;
 }
 
 .report-icon {
@@ -83,18 +87,18 @@
 }
 
 .report-badge--good {
-  background: rgba(16, 185, 129, 0.15);
-  color: #6ee7b7;
+  background: rgba(16, 185, 129, 0.12);
+  color: #15803d;
 }
 
 .report-badge--medium {
   background: rgba(234, 179, 8, 0.15);
-  color: #fde68a;
+  color: #b45309;
 }
 
 .report-badge--bad {
   background: rgba(248, 113, 113, 0.2);
-  color: #fecaca;
+  color: #b91c1c;
 }
 
 .report-progress {
@@ -130,23 +134,23 @@
 
 .report-progress__value {
   font-size: 0.9rem;
-  color: #cbd5f5;
+  color: $text-muted;
   font-weight: 600;
 }
 
 .report-description {
   font-size: 0.97rem;
   line-height: 1.7;
-  color: #e2e8f0;
+  color: $text-soft;
   margin: 0.9rem 0 0 0;
 }
 
 .report-description--warning {
-  color: #fecaca;
+  color: #b91c1c;
   background: rgba(248, 113, 113, 0.12);
   padding: 1rem;
   border-radius: 8px;
-  border-left: 3px solid rgba(248, 113, 113, 0.6);
+  border-left: 3px solid rgba(248, 113, 113, 0.4);
 }
 
 .report-issues {
@@ -155,7 +159,7 @@
   background: rgba(250, 204, 21, 0.12);
   border-radius: 8px;
   font-size: 0.9rem;
-  color: #fde68a;
+  color: #92400e;
   font-weight: 500;
 }
 
@@ -169,8 +173,8 @@
 }
 
 .report-tag {
-  background: rgba(34, 197, 94, 0.15);
-  color: #bbf7d0;
+  background: rgba(34, 197, 94, 0.12);
+  color: #166534;
   padding: 0.625rem 1rem;
   border-radius: 10px;
   font-size: 0.9rem;
@@ -181,7 +185,7 @@
 }
 
 .report-tag__icon {
-  color: #6ee7b7;
+  color: #16a34a;
   font-weight: 700;
 }
 
@@ -192,21 +196,21 @@
 
 .report-export-btn {
   padding: 0.55rem 1.1rem;
-  background: rgba(148, 163, 184, 0.15);
-  border: 1px solid rgba(148, 163, 184, 0.4);
+  background: rgba(79, 70, 229, 0.08);
+  border: 1px solid rgba(79, 70, 229, 0.18);
   border-radius: 8px;
   font-size: 0.9rem;
   font-weight: 500;
-  color: #e2e8f0;
+  color: $brand-strong;
   cursor: pointer;
   transition: all 0.2s;
   font-family: inherit;
 }
 
 .report-export-btn:hover {
-  background: rgba(79, 70, 229, 0.35);
-  color: #fff;
-  border-color: rgba(79, 70, 229, 0.5);
+  background: rgba(79, 70, 229, 0.18);
+  color: $brand-strong;
+  border-color: rgba(79, 70, 229, 0.35);
 }
 
 .report-metrics {
@@ -228,13 +232,13 @@
 
 .report-metric-label {
   font-size: 0.9rem;
-  color: #cbd5f5;
+  color: $text-soft;
 }
 
 .report-metric-value {
   font-size: 0.95rem;
   font-weight: 600;
-  color: #f8fafc;
+  color: $text;
 }
 
 .report-upgrade-hint {
@@ -259,7 +263,7 @@
 .report-solutions {
   margin-top: 0.85rem;
   padding-left: 1.1rem;
-  color: #dce3ff;
+  color: $text-soft;
   font-size: 0.92rem;
   line-height: 1.65;
 }

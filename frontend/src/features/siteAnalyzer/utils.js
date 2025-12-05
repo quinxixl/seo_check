@@ -73,10 +73,10 @@ export async function checkSiteAvailability(url) {
     } catch (error) {
       clearTimeout(timeoutId);
 
-      // Любая ошибка сети/таймаут трактуем как недоступность сайта
+      // В браузере CORS/Adblock могут ломать HEAD-запросы — не блокируем анализ
       return {
-        available: false,
-        error: 'Сайт не отвечает или недоступен. Проверьте правильность адреса или попробуйте позже.'
+        available: true,
+        error: null,
       };
     }
   } catch (error) {
