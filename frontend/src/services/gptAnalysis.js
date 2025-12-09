@@ -15,27 +15,26 @@ export async function analyzeWithGpt(url, plan = "free") {
     {
       role: "system",
       content:
-        "You are an expert web performance, SEO, security, and UX auditor. Respond ONLY with valid JSON. Do not include markdown. Keep values realistic. Scores 0-100.",
+        "You are a professional web auditor. Ответь строго на русском, только JSON как в примере, не завышай и не занижай ничего — только реальные проблемы и баллы. Оценивай сайт строго по его содержимому и техническому состоянию, не придумывай лишнего. Проверяй SEO, скорость, безопасность, качество контента, опыт пользователя, актуальность технических решений.",
     },
     {
       role: "user",
-      content: `Analyze the website ${url} for plan ${plan}.
-Return strict JSON with:
+      content: `Анализируй сайт ${url}. Ответ должен быть строго в формате:
 {
-  "url": "${url}",
+  "url": "<string>",
   "timestamp": "<ISO>",
   "performance": { "score": number, "metrics": { "loadTime": number, "firstContentfulPaint": number }, "recommendations": [string] },
   "seo": { "score": number, "issues": number, "recommendations": [string] },
-  "security": { "headers": [string], "advanced": ${plan !== "free"} },
+  "security": { "headers": [string], "advanced": true },
   "content": { "score": number, "summary": string },
   "ux": { "tips": [string] },
-  "techSeo": ${plan === "business" ? "{ \"crawlLimit\": number, \"checks\": [string] }" : "null"},
-  "monitoring": ${plan === "business" ? "{ \"uptime\": true, \"speed\": true, \"autoAuditWeekly\": true }" : "null"},
-  "competitiveAnalysis": ${plan === "business"},
-  "whiteLabel": ${plan === "business"},
-  "teamAccess": ${plan === "business"},
-  "autoAudit": ${plan === "business"},
-  "pdfExport": ${plan !== "free"}
+  "techSeo": { "crawlLimit": number, "checks": [string] },
+  "monitoring": { "uptime": true, "speed": true, "autoAuditWeekly": true },
+  "competitiveAnalysis": true,
+  "whiteLabel": true,
+  "teamAccess": true,
+  "autoAudit": true,
+  "pdfExport": true
 }`,
     },
   ];
@@ -78,7 +77,7 @@ Return strict JSON with:
     timestamp: parsed.timestamp || new Date().toISOString(),
     performance: parsed.performance || { score: 0, metrics: {}, recommendations: [] },
     seo: parsed.seo || { score: 0, issues: 0, recommendations: [] },
-    security: parsed.security || { headers: [], advanced: plan !== "free" },
+    security: parsed.security || { headers: [], advanced: true },
     content: parsed.content || {},
     ux: parsed.ux || { tips: [] },
   };
